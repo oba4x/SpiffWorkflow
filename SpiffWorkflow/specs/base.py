@@ -351,6 +351,26 @@ class TaskSpec(object):
         """
         pass
 
+    def _on_failed(self, my_task):
+        """
+        Return True on success, False otherwise.
+
+        :type  my_task: Task
+        :param my_task: The associated task in the task tree.
+        """
+        assert my_task is not None
+        self.test()
+        self._on_failed_hook(my_task)
+
+    def _on_failed_hook(self, my_task):
+        """
+        A hook into _on_failed() that does the task specific work.
+
+        :type  my_task: Task
+        :param my_task: The associated task in the task tree.
+        """
+        pass
+
     def _on_cancel(self, my_task):
         """
         May be called by another task to cancel the operation before it was

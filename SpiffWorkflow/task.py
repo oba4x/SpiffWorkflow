@@ -665,6 +665,13 @@ class Task(object,  metaclass=DeprecatedMetaTask):
         self._set_state(TaskState.READY)
         self.task_spec._on_ready(self)
 
+    def _failed(self):
+        """
+        Marks the task as failed.
+        """
+        self._set_state(TaskState.FAILED)
+        self.task_spec._on_failed(self)
+
     def get_name(self):
         return str(self.task_spec.name)
 

@@ -188,6 +188,14 @@ class BpmnSpecMixin(TaskSpec):
         """
         pass
 
+    def entering_failed_state(self, my_task):
+        """
+        Called when a task enters the FAILED state.
+
+        A subclass may override this method to do work when this happens.
+        """
+        pass
+
     def _on_ready_hook(self, my_task):
         super()._on_ready_hook(my_task)
         for obj in self.data_input_associations:
@@ -228,3 +236,8 @@ class BpmnSpecMixin(TaskSpec):
         super(BpmnSpecMixin, self)._on_ready_before_hook(my_task)
         if not my_task.workflow._is_busy_with_restore():
             self.entering_ready_state(my_task)
+
+    def _on_failed(self, my_task):
+        super(BpmnSpecMixin, self)._on_failed(my_task)
+        if not my_task.workflow._is_busy_with_restore():
+            self.entering_failed_state(my_task)
