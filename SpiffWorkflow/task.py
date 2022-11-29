@@ -89,11 +89,12 @@ class TaskState:
     READY = 16
     COMPLETED = 32
     CANCELLED = 64
+    FAILED = 128
 
     FINISHED_MASK = CANCELLED | COMPLETED
     DEFINITE_MASK = FUTURE | WAITING | READY | FINISHED_MASK
     PREDICTED_MASK = FUTURE | LIKELY | MAYBE
-    NOT_FINISHED_MASK = PREDICTED_MASK | WAITING | READY
+    NOT_FINISHED_MASK = PREDICTED_MASK | WAITING | READY | FAILED
     ANY_MASK = FINISHED_MASK | NOT_FINISHED_MASK
 
 
@@ -103,7 +104,8 @@ TaskStateNames = {TaskState.FUTURE: 'FUTURE',
                   TaskState.CANCELLED: 'CANCELLED',
                   TaskState.COMPLETED: 'COMPLETED',
                   TaskState.LIKELY: 'LIKELY',
-                  TaskState.MAYBE: 'MAYBE'}
+                  TaskState.MAYBE: 'MAYBE',
+                  TaskState.FAILED: 'FAILED'}
 TaskStateMasks = {
                   TaskState.FINISHED_MASK: 'FINISHED_MASK',
                   TaskState.DEFINITE_MASK: 'DEFINITE_MASK',
