@@ -128,6 +128,8 @@ class BpmnWorkflow(Workflow):
         """
         assert not self.read_only and not self._is_busy_with_restore()
 
+        caught = False
+
         # Start a subprocess for known specs with start events that catch this
         # This is total hypocritical of me given how I've argued that specs should
         # be immutable, but I see no other way of doing this.
@@ -138,6 +140,7 @@ class BpmnWorkflow(Workflow):
                     subprocess.correlations = correlations or {}
                     start = self.get_tasks_from_spec_name(task_spec.name, workflow=subprocess)[0]
                     task_spec.event_definition.catch(start, event_definition)
+                    caught = True
 
         # We need to get all the tasks that catch an event before completing any of them
         # in order to prevent the scenario where multiple boundary events catch the
@@ -145,11 +148,15 @@ class BpmnWorkflow(Workflow):
         tasks = [ t for t in self.get_catching_tasks() if t.task_spec.catches(t, event_definition, correlations or {}) ]
         for task in tasks:
             task.task_spec.catch(task, event_definition)
+            caught = True
 
         # Figure out if we need to create an extenal message
         if len(tasks) == 0 and isinstance(event_definition, MessageEventDefinition):
             self.bpmn_messages.append(
                 BpmnMessage(correlations, event_definition.name, event_definition.payload))
+            caught = True
+
+        return caught
 
     def get_bpmn_messages(self):
         messages = self.bpmn_messages
