@@ -351,6 +351,15 @@ class TaskSpec(object):
         """
         pass
 
+    def _on_cancel_hook(self, my_task):
+        """
+        A hook into _on_cancel() that does the task specific work.
+
+        :type  my_task: Task
+        :param my_task: The associated task in the task tree.
+        """
+        pass
+
     def _on_cancel(self, my_task):
         """
         May be called by another task to cancel the operation before it was
@@ -359,6 +368,7 @@ class TaskSpec(object):
         :type  my_task: Task
         :param my_task: The associated task in the task tree.
         """
+        self._on_cancel_hook(my_task)
         self.cancelled_event.emit(my_task.workflow, my_task)
 
     def _on_trigger(self, my_task):
