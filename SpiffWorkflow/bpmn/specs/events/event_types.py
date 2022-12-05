@@ -52,6 +52,11 @@ class CatchingEvent(Simple, BpmnSpecMixin):
 
         if my_task.state == TaskState.WAITING and self.event_definition.has_fired(my_task):
             my_task._ready()
+
+        # in case of waiting and not fired we don't call the super
+        if my_task.state == TaskState.WAITING and not self.event_definition.has_fired(my_task):
+            return
+
         super(CatchingEvent, self)._update_hook(my_task)
 
     def _on_ready(self, my_task):

@@ -660,6 +660,10 @@ class Task(object,  metaclass=DeprecatedMetaTask):
         """
         Marks the task as waiting for execution.
         """
+
+        if self._has_state(TaskState.WAITING):
+            return
+
         self._set_state(TaskState.WAITING)
         self.task_spec._on_waiting(self)
 
@@ -667,7 +671,8 @@ class Task(object,  metaclass=DeprecatedMetaTask):
         """
         Marks the task as ready for execution.
         """
-        if self._has_state(TaskState.COMPLETED) or self._has_state(TaskState.CANCELLED):
+        if self._has_state(TaskState.COMPLETED) or self._has_state(TaskState.CANCELLED) or \
+            self._has_state(TaskState.READY):
             return
         self._set_state(TaskState.READY)
         self.task_spec._on_ready(self)
