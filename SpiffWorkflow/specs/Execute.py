@@ -72,7 +72,7 @@ class Execute(TaskSpec):
 
     def _update_hook(self, my_task):
         if not self._start(my_task):
-            my_task._set_state(TaskState.WAITING)
+            my_task._waiting()
             return
         super(Execute, self)._update_hook(my_task)
 

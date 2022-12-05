@@ -58,7 +58,7 @@ class Gate(TaskSpec):
             if task.thread_id != my_task.thread_id:
                 continue
             if not task._has_state(TaskState.COMPLETED):
-                my_task._set_state(TaskState.WAITING)
+                my_task._waiting()
                 return
         super(Gate, self)._update_hook(my_task)
 

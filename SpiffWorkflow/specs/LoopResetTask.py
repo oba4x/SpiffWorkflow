@@ -55,7 +55,7 @@ class LoopResetTask(TaskSpec):
             # set state to WAITING (because it is definitely not COMPLETED)
             # and raise WorkflowException pointing to this task because
             # maybe upstream someone will be able to handle this situation
-            task._set_state(TaskState.WAITING)
+            task._waiting()
             if isinstance(e, WorkflowTaskException):
                 raise e
             else:

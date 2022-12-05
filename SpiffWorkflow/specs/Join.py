@@ -200,7 +200,7 @@ class Join(TaskSpec):
         # Check whether enough incoming branches have completed.
         may_fire, waiting_tasks = self._start(my_task)
         if not may_fire:
-            my_task._set_state(TaskState.WAITING)
+            my_task._waiting()
             return
 
         # If this is a cancelling join, cancel all incoming branches,

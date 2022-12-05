@@ -34,7 +34,7 @@ class ScriptEngineTask(Simple, BpmnSpecMixin):
             self._execute(task)
             super(ScriptEngineTask, self)._on_complete_hook(task)
         except Exception as exc:
-            task._set_state(TaskState.WAITING)
+            task._waiting()
             raise exc
 
     def serialize(self, serializer):
