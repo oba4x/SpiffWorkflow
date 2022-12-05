@@ -359,7 +359,7 @@ class TaskSpec(object):
         :param my_task: The associated task in the task tree.
         """
         assert my_task is not None
-        self.test()
+
         self._on_failed_hook(my_task)
 
     def _on_failed_hook(self, my_task):
