@@ -295,6 +295,26 @@ class TaskSpec(object):
         # that the task was ready), then a lot of things might be easier.
         my_task._ready()
 
+    def _on_waiting(self, my_task):
+        """
+        Return True on success, False otherwise.
+
+        :type  my_task: Task
+        :param my_task: The associated task in the task tree.
+        """
+        assert my_task is not None
+
+        self._on_waiting_hook(my_task)
+
+    def _on_waiting_hook(self, my_task):
+        """
+        A hook into _on_waiting() that does the task specific work.
+
+        :type  my_task: Task
+        :param my_task: The associated task in the task tree.
+        """
+        pass
+
     def _on_ready(self, my_task):
         """
         Return True on success, False otherwise.
@@ -379,7 +399,17 @@ class TaskSpec(object):
         :type  my_task: Task
         :param my_task: The associated task in the task tree.
         """
+        self._on_cancel_hook(my_task)
         self.cancelled_event.emit(my_task.workflow, my_task)
+
+    def _on_cancel_hook(self, my_task):
+        """
+        A hook into _on_cancel() that does the task specific work.
+
+        :type  my_task: Task
+        :param my_task: The associated task in the task tree.
+        """
+        pass
 
     def _on_trigger(self, my_task):
         """

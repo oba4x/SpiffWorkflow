@@ -100,7 +100,7 @@ class ThreadMerge(Join):
 
     def _update_hook(self, my_task):
         if not self._start(my_task):
-            my_task._set_state(TaskState.WAITING)
+            my_task._waiting()
             return
 
         split_task_spec = my_task.workflow.get_task_spec_from_name(

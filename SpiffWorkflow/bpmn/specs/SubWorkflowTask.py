@@ -88,7 +88,7 @@ class SubWorkflowTask(BpmnSpecMixin):
         for child in subworkflow.task_tree.children:
             child.task_spec._update(child)
 
-        my_task._set_state(TaskState.WAITING)
+        my_task._waiting()
 
     def serialize(self, serializer):
         return serializer.serialize_subworkflow_task(self)

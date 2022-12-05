@@ -656,6 +656,13 @@ class Task(object,  metaclass=DeprecatedMetaTask):
             return self.parent
         return self.parent._find_ancestor_from_name(name)
 
+    def _waiting(self):
+        """
+        Marks the task as waiting for execution.
+        """
+        self._set_state(TaskState.WAITING)
+        self.task_spec._on_waiting(self)
+
     def _ready(self):
         """
         Marks the task as ready for execution.

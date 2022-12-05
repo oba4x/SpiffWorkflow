@@ -122,7 +122,7 @@ class SubWorkflow(TaskSpec):
                 assignment.assign(my_task, child)
             child.task_spec._update(child)
         # Instead of completing immediately, we'll wait for the subworkflow to complete
-        my_task._set_state(TaskState.WAITING)
+        my_task._waiting()
 
     def _update_hook(self, my_task):
         subworkflow = my_task._get_internal_data('subworkflow')

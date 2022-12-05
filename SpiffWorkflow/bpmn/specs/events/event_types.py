@@ -62,7 +62,7 @@ class CatchingEvent(Simple, BpmnSpecMixin):
 
         # If we have not seen the event we're waiting for, enter the waiting state
         if not self.event_definition.has_fired(my_task):
-            my_task._set_state(TaskState.WAITING)
+            my_task._waiting()
         super(CatchingEvent, self)._on_ready(my_task)
 
     def _on_complete_hook(self, my_task):

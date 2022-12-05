@@ -151,7 +151,7 @@ class UnstructuredJoin(Join, BpmnSpecMixin):
 
         target_state = getattr(my_task, '_bpmn_load_target_state', None)
         if target_state == TaskState.WAITING:
-            my_task._set_state(TaskState.WAITING)
+            my_task._waiting()
             return
 
         super(UnstructuredJoin, self)._update_hook(my_task)
@@ -164,4 +164,4 @@ class UnstructuredJoin(Join, BpmnSpecMixin):
         # drop children and set state to WAITING
         for t in list(my_task.workflow.task_tree):
             if t.task_spec.name == self.name and t.state == TaskState.COMPLETED:
-                t._set_state(TaskState.WAITING)
+                t._waiting()
