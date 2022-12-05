@@ -272,6 +272,9 @@ class TaskSpec(object):
         state of this task in the workflow. For example, if a predecessor
         completes it makes sure to call this method so we can react.
         """
+
+        print("base._update", my_task)
+
         my_task._inherit_data()
         # We were doing this in _update_hook, but to me that seems inconsistent with the spirit
         # of the hook functions.  Moving it here allows removal of some repeated calls (overridden
@@ -293,6 +296,14 @@ class TaskSpec(object):
         """
         # If this actually did what the documentation said (returned a value indicating
         # that the task was ready), then a lot of things might be easier.
+
+        print("base._update_hook", my_task, my_task.task_spec)
+        # import SpiffWorkflow
+        # if isinstance(my_task.task_spec, SpiffWorkflow.bpmn.specs.events.IntermediateEvent.BoundaryEvent):
+        #     if not my_task.task_spec.event_definition.has_fired(my_task):
+        #         my_task._waiting()
+        #         return
+
         my_task._ready()
 
     def _on_waiting(self, my_task):
@@ -440,6 +451,9 @@ class TaskSpec(object):
         my_task.workflow.last_task = my_task
         self._on_complete_hook(my_task)
         for child in my_task.children:
+
+            print("base._on_complete", child)
+
             child.task_spec._update(child)
         my_task.workflow._task_completed_notify(my_task)
 

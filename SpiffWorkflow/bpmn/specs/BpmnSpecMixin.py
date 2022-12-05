@@ -228,8 +228,10 @@ class BpmnSpecMixin(TaskSpec):
     def _update_hook(self, my_task):
         prev_state = my_task.state
         super(BpmnSpecMixin, self)._update_hook(my_task)
+        print("mixin._update_hook", my_task)
         if (prev_state != TaskState.WAITING and my_task.state == TaskState.WAITING and
                 not my_task.workflow._is_busy_with_restore()):
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             self.entering_waiting_state(my_task)
 
     def _on_ready_before_hook(self, my_task):

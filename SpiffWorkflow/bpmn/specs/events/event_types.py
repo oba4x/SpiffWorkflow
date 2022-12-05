@@ -50,8 +50,18 @@ class CatchingEvent(Simple, BpmnSpecMixin):
 
     def _update_hook(self, my_task):
 
+        print("bouhdary._update_hook")
+
         if my_task.state == TaskState.WAITING and self.event_definition.has_fired(my_task):
+
+            print("METTE IN READY PER CAUSA FIRED!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
             my_task._ready()
+
+        if my_task.state == TaskState.WAITING and not self.event_definition.has_fired(my_task):
+            print("ECCOMI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            return
+
         super(CatchingEvent, self)._update_hook(my_task)
 
     def _on_ready(self, my_task):
@@ -62,6 +72,9 @@ class CatchingEvent(Simple, BpmnSpecMixin):
 
         # If we have not seen the event we're waiting for, enter the waiting state
         if not self.event_definition.has_fired(my_task):
+
+            print("event_type._on_ready put waiting", my_task.state, TaskState.WAITING)
+
             my_task._waiting()
         super(CatchingEvent, self)._on_ready(my_task)
 
